@@ -65,10 +65,21 @@ exports.plugins = {
     verbose: true, //shows each file that is copied to the destination directory
     onlyChanged: true, //only copy a file if it's modified time has changed (only effective when using brunch watch)
   },
-  workbox: {
-    globDirectory: "docs/",
-    globPatterns: ["**/*.*"],
-    swDest: "docs/sw.js",
+  swPrecache: {
+    options: {
+      autorequire: [
+        "app/assets/index.html",
+        "app/assets/images",
+        "app/assets/files",
+      ],
+      staticFileGlobs: [
+        "docs/app.css",
+        "docs/app.js",
+        "docs/vendor.js",
+        "docs/index.html",
+      ],
+      stripPrefix: "docs/",
+    },
   },
   "@babel": { presets: ["env"] },
   terser: {
