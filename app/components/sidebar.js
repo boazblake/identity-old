@@ -1,5 +1,5 @@
-import { AnimateChildren, sideBarChildren, slideOutLeft } from "Styles"
-import { nameFromRoute, randomPause } from "Utils"
+import { AnimateChildren, sideBarChildren, slideOutLeft } from "styles"
+import { nameFromRoute, randomPause } from "utils"
 
 export const SideBar = () => {
   return {

@@ -1,6 +1,6 @@
-import { AnimateChildren, slideInDown } from "Styles"
-import { Hamburger } from "Components"
-import { nameFromRoute, randomPause, isSideBarActive } from "Utils"
+import { AnimateChildren, slideInDown } from "styles"
+import { Hamburger } from "components"
+import { nameFromRoute, randomPause, isSideBarActive } from "utils"
 
 export const Header = {
   view: ({ attrs: { mdl } }) =>

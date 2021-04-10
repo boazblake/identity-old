@@ -1,5 +1,5 @@
-import { Animate, sideBarIn, slideOutRight } from "Styles"
-import { Header, SideBar } from "Components"
+import { Animate, sideBarIn, slideOutRight } from "styles"
+import { Header, SideBar } from "components"
 
 export const Layout = () => {
   return {

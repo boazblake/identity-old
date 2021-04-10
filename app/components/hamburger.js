@@ -1,4 +1,4 @@
-import { isSideBarActive } from "Utils"
+import { isSideBarActive } from "utils"
 
 export const Hamburger = {
   view: ({ attrs: { mdl } }) =>

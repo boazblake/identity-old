@@ -1,4 +1,4 @@
-import { jsonCopy, NoOp } from "Utils"
+import { jsonCopy, NoOp } from "utils"
 export * from "./animations.js"
 
 const duration = {

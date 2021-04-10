@@ -83,16 +83,24 @@ exports.plugins = {
     },
   },
   "@babel": { presets: ["env"] },
+  terser: {
+    mangle: true,
+    compress: {
+      global_defs: {
+        DEBUG: false,
+      },
+    },
+  },
 }
 
 exports.paths = {
   public: "docs",
   watched: [
     "app",
-    "app/Utils",
-    "app/Components",
-    "app/Styles",
-    "app/Pages",
+    "app/utils",
+    "app/components",
+    "app/styles",
+    "app/pages",
     "app/assets",
   ],
 }

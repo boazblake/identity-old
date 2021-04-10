@@ -1,1 +1,1 @@
-export const GOL_HTML = '<div id="GameOfLife"></div>'
+export default '<div id="GameOfLife"></div>'

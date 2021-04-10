@@ -1,5 +1,5 @@
-import { Pause, randomPause } from "Utils"
-import { Animate, fadeIn } from "Styles"
+import { Pause, randomPause } from "utils"
+import { Animate, fadeIn } from "styles"
 
 const RepoLink = {
   view: ({ attrs: { url } }) =>

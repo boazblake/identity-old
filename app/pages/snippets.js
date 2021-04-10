@@ -1,5 +1,5 @@
-import { TicTacToe, GameOfLife, ShapeShifter } from "Components"
-import { jsonCopy } from "Utils"
+import { TicTacToe, GameOfLife, ShapeShifter } from "components"
+import { jsonCopy } from "utils"
 
 let snippets = [TicTacToe, , GameOfLife, ShapeShifter]
 

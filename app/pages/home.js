@@ -1,5 +1,6 @@
-import { AnimateChildren, fadeInUp, Animate, popIn } from "Styles"
-import { log, randomPause, Pause } from "Utils"
+import { AnimateChildren, fadeInUp, Animate, popIn } from "styles"
+import { log, randomPause, Pause } from "utils"
+import { Walkabout } from "components"
 
 export const Home = {
   view: () =>
@@ -39,6 +40,7 @@ export const Home = {
                 src: "images/linkedin.svg",
               })
             ),
+            m(Walkabout),
           ])
         ),
         m(

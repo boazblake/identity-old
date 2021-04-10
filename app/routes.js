@@ -1,6 +1,6 @@
-import { Layout } from "Components"
-import { AnimatePage, slideOutLeft, slideInRight } from "Styles"
-import { Home, About, Portfolio, Snippets, Resume } from "Pages"
+import { Layout } from "components"
+import { AnimatePage, slideOutLeft, slideInRight } from "styles"
+import { Home, About, Portfolio, Snippets, Resume } from "pages"
 
 const routes = (mdl) => {
   return {

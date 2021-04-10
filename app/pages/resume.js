@@ -1,5 +1,5 @@
-import { AnimateChildren, fadeInUp } from "Styles"
-import { Pause } from "Utils"
+import { AnimateChildren, fadeInUp } from "styles"
+import { Pause } from "utils"
 
 export const Resume = () => {
   return {
