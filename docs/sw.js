@@ -37,7 +37,7 @@
 /* eslint-disable indent, no-unused-vars, no-multiple-empty-lines, max-nested-callbacks, space-before-function-paren, quotes, comma-spacing */
 'use strict';
 
-var precacheConfig = [["app.css","3c89370145728028ffbccad4fc522c4e"],["app.js","62373ec4a62bf18c0304237313adf542"],["index.html","d0428c66e0f6881065f93a09d3e16a52"],["vendor.js","bd1af67083b4228fe652639ce96b4d37"]];
+var precacheConfig = [["docs/app.css","3c89370145728028ffbccad4fc522c4e"],["docs/app.js","07d359aeb122d273d45f0c2c0aadbf6b"],["docs/files/resume.pdf","7686ea4415fbba24f414d245996e8789"],["docs/images/boazface.jpg","ac34d87e2757120960ab4f9a7acba2c6"],["docs/images/github.svg","6c4d6125acf853eb74d25f42f70a80a1"],["docs/images/linkedin.svg","c1eb27404bbc0d6052620ac79194ae19"],["docs/images/resume 2.jpeg","9a7da7d5cff2b0574b4e1c92fb8215a7"],["docs/images/resume.jpeg","370444fdc3240059cf93bf2cedbc45bb"],["docs/index.html","d0428c66e0f6881065f93a09d3e16a52"],["docs/manifest.json","cea95db8297e442a79a85d8a6c1fe3ea"],["docs/vendor.js","bd1af67083b4228fe652639ce96b4d37"]];
 var cacheName = 'sw-precache-v3--' + (self.registration ? self.registration.scope : '');
 
 

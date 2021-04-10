@@ -6,7 +6,7 @@ export const log = (m) => (v) => {
 }
 
 const secureImg = (url) =>
-  url.match(/(https)./) ? url : url.replace("http", "https")
+  url.match(/(https)./) ? url : url.replace("http:", "https:")
 
 export const randomPause = () => Math.random() * 1000
 export const Pause = (n) => Stream(n * 1000)
