@@ -16,7 +16,8 @@
     "mithril": "^2.0.4",
     "mithril-stream": "^2.0.0",
     "normalize.css": "^8.0.1",
-    "ramda": "^0.27.0"
+    "ramda": "^0.27.0",
+    "workbox-brunch": "^1.0.2"
   },
   "devDependencies": {
     "@babel/plugin-transform-spread": "^7.7.4",
