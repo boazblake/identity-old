@@ -30,7 +30,6 @@
     "imagemin-brunch": "^1.1.0",
     "sass-brunch": "3.0.0",
     "size-limit": "^4.5.0",
-    "sw-precache-brunch": "^2.0.1",
     "terser-brunch": "^4.0.0",
     "uglify-js-brunch": "^2.10.0"
   }

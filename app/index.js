@@ -52,20 +52,20 @@ const getProfile = (w) => {
   return "desktop"
 }
 
-const checkWidth = (winW) => {
-  const w = window.innerWidth
-  if (winW !== w) {
-    winW = w
-    var lastProfile = model.settings.profile
-    model.settings.profile = getProfile(w)
-    if (lastProfile != model.settings.profile) m.redraw()
-  }
-  return requestAnimationFrame(checkWidth)
-}
+// const checkWidth = (winW) => {
+//   const w = window.innerWidth
+//   if (winW !== w) {
+//     winW = w
+//     var lastProfile = model.settings.profile
+//     model.settings.profile = getProfile(w)
+//     if (lastProfile != model.settings.profile) m.redraw()
+//   }
+//   return requestAnimationFrame(checkWidth)
+// }
 
 model.settings.profile = getProfile(winW)
 
-checkWidth(winW)
+// checkWidth(winW)
 
 if (sessionStorage.getItem("user")) {
   model.user = JSON.parse(sessionStorage.getItem("user"))
