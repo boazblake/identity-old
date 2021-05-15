@@ -21,11 +21,11 @@ export const Resume = () => {
           ),
           m("img.resume-img", {
             id: "resume-1",
-            src: "/images/resume.webp",
+            src: "images/resume.webp",
           }),
           m("img.resume-img", {
             id: "resume-2",
-            src: "/images/resume 2.webp",
+            src: "images/resume 2.webp",
           }),
         ]
       ),

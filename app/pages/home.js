@@ -13,7 +13,7 @@ export const Home = {
         m(
           ".frow",
           m("img#boazface", {
-            src: "/images/boazface.webp",
+            src: "images/boazface.webp",
           }),
           m(".frow.row-around", { padding: "2px" }, [
             m(
@@ -25,7 +25,7 @@ export const Home = {
               },
               m("img", {
                 style: { margin: "2px", height: "100px", width: "100px" },
-                src: "/images/github.svg",
+                src: "images/github.svg",
               })
             ),
             m(
@@ -37,7 +37,7 @@ export const Home = {
               },
               m("img", {
                 style: { margin: "2px", height: "100px", width: "100px" },
-                src: "/images/linkedin.svg",
+                src: "images/linkedin.svg",
               })
             ),
             m(Walkabout),
