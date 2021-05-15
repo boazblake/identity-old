@@ -77,7 +77,7 @@ exports.plugins = {
   sharp: {
     src: "app/assets/images",
     dest: "docs/images",
-    imageExt: ["jpg"],
+    imageExt: ["jpg", "png"],
     tasks: [
       [
         { resize: [1200] },
