@@ -13,7 +13,7 @@ export const Home = {
         m(
           ".frow",
           m("img#boazface", {
-            src: "/images/boazface.jpg",
+            src: "/images/boazface.webp",
           }),
           m(".frow.row-around", { padding: "2px" }, [
             m(
