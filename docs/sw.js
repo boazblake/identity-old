@@ -27,11 +27,19 @@ self.addEventListener('message', (event) => {
 self.__precacheManifest = [
   {
     "url": "app.css",
-    "revision": "492807fd10dacec5ed439053e981e1d4"
+    "revision": "4ccd041b4a8c3c1123f77e39b7677949"
+  },
+  {
+    "url": "app.css.map",
+    "revision": "7be53a0543207df4cce50d2fe89f47b4"
   },
   {
     "url": "app.js",
-    "revision": "472b241670690389607336a6a6fea843"
+    "revision": "c383a870c138ad5a8ea44e918f7b6880"
+  },
+  {
+    "url": "app.js.map",
+    "revision": "96a4a92e323b38434b9f4ddc81e26f50"
   },
   {
     "url": "files/resume.pdf",
@@ -40,6 +48,10 @@ self.__precacheManifest = [
   {
     "url": "images/boazface.jpg",
     "revision": "ac34d87e2757120960ab4f9a7acba2c6"
+  },
+  {
+    "url": "images/boazface.webp",
+    "revision": "19bb767d6ec7647121bb51d8efdeea29"
   },
   {
     "url": "images/github.svg",
@@ -54,8 +66,20 @@ self.__precacheManifest = [
     "revision": "9a7da7d5cff2b0574b4e1c92fb8215a7"
   },
   {
+    "url": "images/resume 2.webp",
+    "revision": "fb66b45ae1f3eebfd936dba60f52b6c4"
+  },
+  {
     "url": "images/resume.jpeg",
     "revision": "370444fdc3240059cf93bf2cedbc45bb"
+  },
+  {
+    "url": "images/resume.pdf",
+    "revision": "7686ea4415fbba24f414d245996e8789"
+  },
+  {
+    "url": "images/resume.webp",
+    "revision": "80815666a8d5fffea203f72699146dd1"
   },
   {
     "url": "images/walk-sequence.svg",
@@ -71,7 +95,11 @@ self.__precacheManifest = [
   },
   {
     "url": "vendor.js",
-    "revision": "bd1af67083b4228fe652639ce96b4d37"
+    "revision": "4acccb29d9ee9cea3ddc47f53a5beb64"
+  },
+  {
+    "url": "vendor.js.map",
+    "revision": "6b50aa4d56afad4fcfcfcaacb159ed82"
   }
 ].concat(self.__precacheManifest || []);
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
