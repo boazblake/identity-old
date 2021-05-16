@@ -12,8 +12,8 @@ export const Home = {
       [
         m(
           ".frow",
-          m("img#boazface", {
-            src: "images/boazface.webp",
+          m("img#me", {
+            src: "images/me.webp",
           }),
           m(".frow.row-around", { padding: "2px" }, [
             m(

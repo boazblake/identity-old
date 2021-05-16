@@ -399,9 +399,9 @@ require.register("components/snippets/GOL/GOL.js", function(exports, require, mo
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
-var _default = 'const Stream  = m.stream\nconst compose = R.compose\nconst range = R.range\nconst without = R.without\nconst values = R.values\nconst root = document.getElementById(\'GameOfLife\')\nconst siblingCoords = [[-1, 0],[-1, 1],[0, 1],[1, 1],[1, 0],[1, -1],[0, -1],[-1, -1]]\n\nconst model = {\n  isRunning: Stream(false),\n  board: {},\n  delay: Stream(1000),\n  randomized: Stream(15),\n  size: Stream(30),\n  width: Stream(800),\n  lifecycle: Stream(0)\n}\n\nconst restart = (mdl) => {\n  mdl.isRunning(false)\n  mdl.delay(1000)\n  mdl.randomized(15)\n  mdl.size(30)\n  mdl.width(800)\n  mdl.lifecycle(0)\n  return mdl\n}\n\n\nconst withinBounds = (limit) => (coords) =>\n  !(coords.includes(limit) || coords.includes(-1))\n\nconst toSiblingModel = (acc, sibling) => {\n  acc[sibling] = false\n  return acc\n}\n\nconst calcSiblings = (limit) => (sibCoords) => (coords) =>\n  sibCoords\n    .map((sib) => [sib[0] + coords[0], sib[1] + coords[1]])\n    .filter(withinBounds(limit))\n    .reduce(toSiblingModel, {})\n\nconst makeCell = (mdl) => (size) => (idx) => {\n  let coords = [idx % size, Math.floor(idx / size)]\n  let siblings = calcSiblings(size)(siblingCoords)(coords)\n  let cell = {\n    key: idx,\n    value: "",\n    isAlive: false,\n    coords,\n    siblings\n  }\n  mdl.board[coords] = cell\n\n  return mdl\n}\n\nconst makeBoardFromSize = (mdl, size) => {\n  mdl.size(size)\n  return range(0, size * size).map(makeCell(mdl)(size))\n}\n\nconst calculateCell = (mdl) => {\n  Object.keys(mdl.board).map((cell) => {\n    let cellsAlive = without([false], values(mdl.board[cell].siblings)).length\n\n    if (mdl.board[cell].isAlive) {\n      if (cellsAlive <= 2) {\n        mdl.board[cell].isAlive = false\n      }\n\n      if ([2, 3].includes(cellsAlive)) {\n        mdl.board[cell].isAlive = true\n      }\n\n      if (cellsAlive > 3) {\n        mdl.board[cell].isAlive = false\n      }\n    } else {\n      if (cellsAlive == 3) {\n        mdl.board[cell].isAlive = true\n      }\n    }\n  })\n  return mdl\n}\n\nconst updateSiblings = (mdl) => {\n  Object.keys(mdl.board).map((cell) =>\n    Object.keys(mdl.board[cell].siblings).map(\n      (sibling) =>\n        (mdl.board[cell].siblings[sibling] = mdl.board[sibling].isAlive)\n    )\n  )\n\n  return mdl\n}\n\nconst runGOL = (mdl) => {\n  if (mdl.isRunning()) {\n    mdl.lifecycle(mdl.lifecycle() + 1)\n    setTimeout(() => {\n      m.redraw()\n      return runGOL(updateCells(mdl))\n    }, mdl.delay())\n  } else {\n    return mdl\n  }\n}\n\nconst randomizeCells = (mdl) => {\n  let randomCells = Object.keys(mdl.board)\n    .sort(() => 0.5 - Math.random())\n    .slice(0, Math.floor((mdl.randomized() / 100) * (mdl.size() * mdl.size())))\n\n  randomCells.map((cell) => (mdl.board[cell].isAlive = true))\n\n  return mdl\n}\n\n\nconst initBoard = mdl =>   {  \n  makeBoardFromSize(mdl, Number(mdl.size()))\n  createSeed(mdl)\n}\n\nconst makeNewGame = mdl => e => {\n  restart(mdl)\n  initBoard(mdl)\n}\n\nconst advanceLifeCycle = mdl => (e) => {\n  mdl.isRunning(false)\n  mdl.lifecycle(mdl.lifecycle() + 1)\n  updateCells(mdl)\n}\n\nconst goForth = mdl => (e) => {\n  mdl.isRunning(true)\n  runGOL(mdl)\n}\n\nconst randomize = mdl => (e) =>{\n  mdl.randomized(e.target.value)\n  initBoard(mdl)\n}\n\nconst setDelay = mdl => (e) => mdl.delay(e.target.value)\n\nconst setBoardSize = mdl => (e) => {\n  mdl.size(e.target.value)\n  initBoard(mdl)\n}\n\nconst updateCells = compose(calculateCell, updateSiblings)\nconst createSeed = compose(updateSiblings, randomizeCells)\n\nconst Cell = {\n  view: ({ attrs: { mdl, cell } }) => {\n    return m(".cell", {\n      class: cell.isAlive ? "alive" : "dead",\n      style: {\n        fontSize: `${mdl.width() / mdl.size() / 2}px`,\n        height: `${mdl.width() / mdl.size() / 2}px`,\n        flex: `1 1 ${mdl.width() / mdl.size()}px`\n      },\n      onclick: () => {\n        mdl.board[cell.coords].isAlive = !cell.isAlive\n        updateSiblings(mdl)\n      }\n    })\n  }\n}\n\nconst Board = ({ attrs: { mdl } }) => {\n  initBoard(mdl)\n  return {\n    view: ({ attrs: { mdl } }) => {\n      return m(\n        ".board",\n        { style: { width: `${mdl.width()}px` } },\n        Object.keys(mdl.board).map((coord) => {\n          let cell = mdl.board[coord]\n          return m(Cell, { key: cell.key, cell, mdl })\n        })\n      )\n    }\n  }\n}\n\nconst Input = () => {\n  return {\n    view: ({ attrs: { mdl, label, min, max, step, value, fn } }) => [\n      m("label", [label,\n      m("input[type=\'number\']", {\n        inputmode: \'numeric\',\n        pattern:"[0-9]*",\n        min,\n        max,\n        step,\n        value,\n        onchange: e => fn(e)\n      })\n      ])\n    ]\n  }\n}\n\nconst Button = () => {\n  return {\n    view:({attrs:{mdl, label, fn}}) => m(\n        "button", {onclick: (e) => fn(e)},\n        label\n      )\n  }\n}\n\nconst TopRow = {\n  view:({attrs:{mdl}})=>\n   m(\'.topRow\', [m(Button, {mdl, fn: makeNewGame(mdl), label: \'New Game\'}),\n      m(Button, {mdl, fn: advanceLifeCycle(mdl), label:"Advance 1 Lifecycle"}),\n      m(Button, {mdl, fn:goForth(mdl), label:"Go Forth"})])\n}\n\nconst BottomRow = {\n  view:({attrs:{mdl}})=>\n    m(\'.bottomRow\',[\n      m(Input, { mdl, label: \'Randomize(%):\', min:0, max:100, step:1, value:mdl.randomized(), fn:randomize(mdl) }),\n      m(Input, { mdl, label: \'Delay(ms):\', min:0, max:1000, step:100, value:mdl.delay(), fn:setDelay(mdl) }),\n      m(Input, { mdl, label: \'size:\', min:30, max:100, step:10, value:mdl.size(), fn: setBoardSize(mdl) })])\n}\n\n      \nconst Toolbar = {\n  view: ({ attrs: { mdl } }) =>\n    m(".toolbar", [\n      m(TopRow, {mdl}),\n      m(BottomRow, {mdl})\n    ])\n}\n\nconst GameOfLife = {\n  view: ({ attrs: { mdl } }) => {\n    return m(".container", [\n      m(Toolbar, { mdl }),\n      m(Board, {\n        mdl\n      }),\n      m("h2", `lifecycle: ${mdl.lifecycle()}`)\n    ])\n  }\n}\n\nm.mount(root, {view:() => m(GameOfLife, {mdl:model})})';
-exports.default = _default;
+exports.GOL = void 0;
+var GOL = 'const Stream  = m.stream\nconst compose = R.compose\nconst range = R.range\nconst without = R.without\nconst values = R.values\nconst root = document.getElementById(\'GameOfLife\')\nconst siblingCoords = [[-1, 0],[-1, 1],[0, 1],[1, 1],[1, 0],[1, -1],[0, -1],[-1, -1]]\n\nconst model = {\n  isRunning: Stream(false),\n  board: {},\n  delay: Stream(1000),\n  randomized: Stream(15),\n  size: Stream(30),\n  width: Stream(800),\n  lifecycle: Stream(0)\n}\n\nconst restart = (mdl) => {\n  mdl.isRunning(false)\n  mdl.delay(1000)\n  mdl.randomized(15)\n  mdl.size(30)\n  mdl.width(800)\n  mdl.lifecycle(0)\n  return mdl\n}\n\n\nconst withinBounds = (limit) => (coords) =>\n  !(coords.includes(limit) || coords.includes(-1))\n\nconst toSiblingModel = (acc, sibling) => {\n  acc[sibling] = false\n  return acc\n}\n\nconst calcSiblings = (limit) => (sibCoords) => (coords) =>\n  sibCoords\n    .map((sib) => [sib[0] + coords[0], sib[1] + coords[1]])\n    .filter(withinBounds(limit))\n    .reduce(toSiblingModel, {})\n\nconst makeCell = (mdl) => (size) => (idx) => {\n  let coords = [idx % size, Math.floor(idx / size)]\n  let siblings = calcSiblings(size)(siblingCoords)(coords)\n  let cell = {\n    key: idx,\n    value: "",\n    isAlive: false,\n    coords,\n    siblings\n  }\n  mdl.board[coords] = cell\n\n  return mdl\n}\n\nconst makeBoardFromSize = (mdl, size) => {\n  mdl.size(size)\n  return range(0, size * size).map(makeCell(mdl)(size))\n}\n\nconst calculateCell = (mdl) => {\n  Object.keys(mdl.board).map((cell) => {\n    let cellsAlive = without([false], values(mdl.board[cell].siblings)).length\n\n    if (mdl.board[cell].isAlive) {\n      if (cellsAlive <= 2) {\n        mdl.board[cell].isAlive = false\n      }\n\n      if ([2, 3].includes(cellsAlive)) {\n        mdl.board[cell].isAlive = true\n      }\n\n      if (cellsAlive > 3) {\n        mdl.board[cell].isAlive = false\n      }\n    } else {\n      if (cellsAlive == 3) {\n        mdl.board[cell].isAlive = true\n      }\n    }\n  })\n  return mdl\n}\n\nconst updateSiblings = (mdl) => {\n  Object.keys(mdl.board).map((cell) =>\n    Object.keys(mdl.board[cell].siblings).map(\n      (sibling) =>\n        (mdl.board[cell].siblings[sibling] = mdl.board[sibling].isAlive)\n    )\n  )\n\n  return mdl\n}\n\nconst runGOL = (mdl) => {\n  if (mdl.isRunning()) {\n    mdl.lifecycle(mdl.lifecycle() + 1)\n    setTimeout(() => {\n      m.redraw()\n      return runGOL(updateCells(mdl))\n    }, mdl.delay())\n  } else {\n    return mdl\n  }\n}\n\nconst randomizeCells = (mdl) => {\n  let randomCells = Object.keys(mdl.board)\n    .sort(() => 0.5 - Math.random())\n    .slice(0, Math.floor((mdl.randomized() / 100) * (mdl.size() * mdl.size())))\n\n  randomCells.map((cell) => (mdl.board[cell].isAlive = true))\n\n  return mdl\n}\n\n\nconst initBoard = mdl =>   {  \n  makeBoardFromSize(mdl, Number(mdl.size()))\n  createSeed(mdl)\n}\n\nconst makeNewGame = mdl => e => {\n  restart(mdl)\n  initBoard(mdl)\n}\n\nconst advanceLifeCycle = mdl => (e) => {\n  mdl.isRunning(false)\n  mdl.lifecycle(mdl.lifecycle() + 1)\n  updateCells(mdl)\n}\n\nconst goForth = mdl => (e) => {\n  mdl.isRunning(true)\n  runGOL(mdl)\n}\n\nconst randomize = mdl => (e) =>{\n  mdl.randomized(e.target.value)\n  initBoard(mdl)\n}\n\nconst setDelay = mdl => (e) => mdl.delay(e.target.value)\n\nconst setBoardSize = mdl => (e) => {\n  mdl.size(e.target.value)\n  initBoard(mdl)\n}\n\nconst updateCells = compose(calculateCell, updateSiblings)\nconst createSeed = compose(updateSiblings, randomizeCells)\n\nconst Cell = {\n  view: ({ attrs: { mdl, cell } }) => {\n    return m(".cell", {\n      class: cell.isAlive ? "alive" : "dead",\n      style: {\n        fontSize: `${mdl.width() / mdl.size() / 2}px`,\n        height: `${mdl.width() / mdl.size() / 2}px`,\n        flex: `1 1 ${mdl.width() / mdl.size()}px`\n      },\n      onclick: () => {\n        mdl.board[cell.coords].isAlive = !cell.isAlive\n        updateSiblings(mdl)\n      }\n    })\n  }\n}\n\nconst Board = ({ attrs: { mdl } }) => {\n  initBoard(mdl)\n  return {\n    view: ({ attrs: { mdl } }) => {\n      return m(\n        ".board",\n        { style: { width: `${mdl.width()}px` } },\n        Object.keys(mdl.board).map((coord) => {\n          let cell = mdl.board[coord]\n          return m(Cell, { key: cell.key, cell, mdl })\n        })\n      )\n    }\n  }\n}\n\nconst Input = () => {\n  return {\n    view: ({ attrs: { mdl, label, min, max, step, value, fn } }) => [\n      m("label", [label,\n      m("input[type=\'number\']", {\n        inputmode: \'numeric\',\n        pattern:"[0-9]*",\n        min,\n        max,\n        step,\n        value,\n        onchange: e => fn(e)\n      })\n      ])\n    ]\n  }\n}\n\nconst Button = () => {\n  return {\n    view:({attrs:{mdl, label, fn}}) => m(\n        "button", {onclick: (e) => fn(e)},\n        label\n      )\n  }\n}\n\nconst TopRow = {\n  view:({attrs:{mdl}})=>\n   m(\'.topRow\', [m(Button, {mdl, fn: makeNewGame(mdl), label: \'New Game\'}),\n      m(Button, {mdl, fn: advanceLifeCycle(mdl), label:"Advance 1 Lifecycle"}),\n      m(Button, {mdl, fn:goForth(mdl), label:"Go Forth"})])\n}\n\nconst BottomRow = {\n  view:({attrs:{mdl}})=>\n    m(\'.bottomRow\',[\n      m(Input, { mdl, label: \'Randomize(%):\', min:0, max:100, step:1, value:mdl.randomized(), fn:randomize(mdl) }),\n      m(Input, { mdl, label: \'Delay(ms):\', min:0, max:1000, step:100, value:mdl.delay(), fn:setDelay(mdl) }),\n      m(Input, { mdl, label: \'size:\', min:30, max:100, step:10, value:mdl.size(), fn: setBoardSize(mdl) })])\n}\n\n      \nconst Toolbar = {\n  view: ({ attrs: { mdl } }) =>\n    m(".toolbar", [\n      m(TopRow, {mdl}),\n      m(BottomRow, {mdl})\n    ])\n}\n\nconst GameOfLife = {\n  view: ({ attrs: { mdl } }) => {\n    return m(".container", [\n      m(Toolbar, { mdl }),\n      m(Board, {\n        mdl\n      }),\n      m("h2", `lifecycle: ${mdl.lifecycle()}`)\n    ])\n  }\n}\n\nm.mount(root, {view:() => m(GameOfLife, {mdl:model})})';
+exports.GOL = GOL;
 
 });
 
@@ -411,9 +411,9 @@ require.register("components/snippets/GOL/GOL_CSS.js", function(exports, require
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
-var _default = "* {\n  font-family: Montserrat, Sans-Serif;\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  outline: none;\n}\n\n.toolbar {\n  line-height: 70px;\n  padding: 10px;\n  border: 1px solid #ecf0f1;\n  justify-content: space-between;\n}\n\n.topRow {\n  display: flex;\n  flex-flow: wrap;\n  justify-content: space-around;\n}\n\n.bottomRow {\n  display: flex;\n  flex-flow: wrap;\n  justify-content: space-around;\n}\n\nbutton {\n\tbox-shadow: 0px 10px 14px -7px #276873;\n\tbackground:linear-gradient(to bottom, #599bb3 5%, #408c99 100%);\n\tbackground-color:#599bb3;\n\tborder-radius:8px;\n\tdisplay:inline-block;\n\tcursor:pointer;\n\tcolor:#ffffff;\n\tfont-family:Arial;\n\tfont-size:20px;\n\tfont-weight:bold;\n\tpadding:13px 32px;\n\ttext-decoration:none;\n\ttext-shadow:0px 1px 0px #3d768a;\n}\nbutton:hover {\n\tbackground:linear-gradient(to bottom, #408c99 5%, #599bb3 100%);\n\tbackground-color:#408c99;\n}\nbutton:active {\n\tposition:relative;\n\ttop:1px;\n}\n\nlabel > * {\n  padding: 10px;\n  margin: 10px;\n\tbackground: #1abc9c;\n\tcolor: #fff;\n\tfont-size: 1em;\n\tline-height: 30px;\n\ttext-align: center;\n\ttext-shadow: 0 1px 0 rgba(255,255,255,0.2);\n\tborder-radius: 15px;\n}\n\n.board {\n  display: flex;\n  flex-flow: wrap;\n  width: 800px;\n  background: #ecf0f1;\n}\n\n.cell {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  border: 1px solid #8e44ad;\n  cursor: pointer;\n}\n\n.alive {\n  background: #8e44ad;\n}\n\n.dead {\n  background: #ecf0f1;\n}";
-exports.default = _default;
+exports.GOL_CSS = void 0;
+var GOL_CSS = "* {\n  font-family: Montserrat, Sans-Serif;\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box;\n  outline: none;\n}\n\n.toolbar {\n  line-height: 70px;\n  padding: 10px;\n  border: 1px solid #ecf0f1;\n  justify-content: space-between;\n}\n\n.topRow {\n  display: flex;\n  flex-flow: wrap;\n  justify-content: space-around;\n}\n\n.bottomRow {\n  display: flex;\n  flex-flow: wrap;\n  justify-content: space-around;\n}\n\nbutton {\n\tbox-shadow: 0px 10px 14px -7px #276873;\n\tbackground:linear-gradient(to bottom, #599bb3 5%, #408c99 100%);\n\tbackground-color:#599bb3;\n\tborder-radius:8px;\n\tdisplay:inline-block;\n\tcursor:pointer;\n\tcolor:#ffffff;\n\tfont-family:Arial;\n\tfont-size:20px;\n\tfont-weight:bold;\n\tpadding:13px 32px;\n\ttext-decoration:none;\n\ttext-shadow:0px 1px 0px #3d768a;\n}\nbutton:hover {\n\tbackground:linear-gradient(to bottom, #408c99 5%, #599bb3 100%);\n\tbackground-color:#408c99;\n}\nbutton:active {\n\tposition:relative;\n\ttop:1px;\n}\n\nlabel > * {\n  padding: 10px;\n  margin: 10px;\n\tbackground: #1abc9c;\n\tcolor: #fff;\n\tfont-size: 1em;\n\tline-height: 30px;\n\ttext-align: center;\n\ttext-shadow: 0 1px 0 rgba(255,255,255,0.2);\n\tborder-radius: 15px;\n}\n\n.board {\n  display: flex;\n  flex-flow: wrap;\n  width: 800px;\n  background: #ecf0f1;\n}\n\n.cell {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  border: 1px solid #8e44ad;\n  cursor: pointer;\n}\n\n.alive {\n  background: #8e44ad;\n}\n\n.dead {\n  background: #ecf0f1;\n}";
+exports.GOL_CSS = GOL_CSS;
 
 });
 
@@ -423,9 +423,9 @@ require.register("components/snippets/GOL/GOL_HTML.js", function(exports, requir
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = void 0;
-var _default = '<div id="GameOfLife"></div>';
-exports.default = _default;
+exports.GOL_HTML = void 0;
+var GOL_HTML = '<div id="GameOfLife"></div>';
+exports.GOL_HTML = GOL_HTML;
 
 });
 
@@ -772,9 +772,46 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.Walkabout = void 0;
+
+var getInt = function getInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+};
+
+var POS = function POS() {
+  return {
+    n: getInt(0, 1),
+    x: getInt(0, 1),
+    y: getInt(0, 1),
+    deg: getInt(0, 360)
+  };
+};
+
+var state = {
+  pos: POS()
+};
+
+var updateState = function updateState(state) {
+  return function (obs) {
+    console.log("handlers", state, obs[0].isIntersecting);
+    return obs[0].isIntersecting ? state.pos = POS() : {};
+  };
+};
+
+var watchElem = new IntersectionObserver(updateState(state), {});
 var Walkabout = {
+  oncreate: function oncreate(_ref) {
+    var dom = _ref.dom;
+    watchElem.observe(dom);
+  },
   view: function view() {
-    return m("#walk-container", m("#walk"));
+    return m("#walk-container", {
+      style: {}
+    }, m("#walk", {
+      style: {
+        transform: "scale(0.".concat(state.pos.n, ") ") // transform: `scale(0.${state.pos.n}) translateX(0.${state.pos.x}rem) translateY(0.${state.pos.y}rem) rotate(${state.pos.deg}deg)`,
+
+      }
+    }));
   }
 };
 exports.Walkabout = Walkabout;
@@ -1017,8 +1054,8 @@ var Home = {
   view: function view() {
     return m(".home", {
       oncreate: (0, _styles.AnimateChildren)(_styles.fadeInUp, (0, _utils.Pause)(0.05))
-    }, [m(".frow", m("img#boazface", {
-      src: "images/boazface.webp"
+    }, [m(".frow", m("img#me", {
+      src: "images/me.webp"
     }), m(".frow.row-around", {
       padding: "2px"
     }, [m("a", {
@@ -1148,6 +1185,14 @@ var _utils = require("utils");
 
 var _styles = require("styles");
 
+var handler = function handler(entry) {
+  entry.forEach(function (change) {
+    console.log(change.isIntersecting, change.target.style.opacity);
+    change.target.style.opacity = change.isIntersecting ? 1 : 0;
+  });
+};
+
+var opacityObs = new IntersectionObserver(handler);
 var RepoLink = {
   view: function view(_ref) {
     var url = _ref.attrs.url;
@@ -1195,7 +1240,15 @@ var Repo = function Repo() {
       });
     },
     view: function view() {
-      return state.status == "loading" && "Repo Loading...", state.status == "failed" && "Error", state.status == "loaded" && m(".repo", m(".col-md-3-3", {
+      return state.status == "loading" && "Repo Loading...", state.status == "failed" && "Error", state.status == "loaded" && m(".repo", {
+        oncreate: function oncreate(_ref4) {
+          var dom = _ref4.dom;
+          return state.status == "loaded" && opacityObs.observe(dom);
+        },
+        style: {
+          opacity: 1
+        }
+      }, m(".col-md-3-3", {
         oncreate: (0, _styles.Animate)(_styles.fadeIn, _utils.randomPause)
       }, [m(".repo-title", [m(RepoLink, {
         url: state.name
@@ -1225,8 +1278,8 @@ var Portfolio = function Portfolio() {
       state.status = "failed";
       state.errors = errors;
     }),
-    view: function view(_ref4) {
-      var mdl = _ref4.attrs.mdl;
+    view: function view(_ref5) {
+      var mdl = _ref5.attrs.mdl;
       return m(".portfolio", m(".frow-container.frow", state.status == "failed" && "Error fetching Repos ...", state.status == "loading" && "Loading Repos ...", state.status == "loaded" && state.repos.map(function (url) {
         return m(Repo, {
           url: url,

@@ -1,6 +1,16 @@
 import { Pause, randomPause } from "utils"
 import { Animate, fadeIn } from "styles"
 
+const handler = (entry) => {
+  entry.forEach((change) => {
+    console.log(change.isIntersecting, change.target.style.opacity)
+
+    change.target.style.opacity = change.isIntersecting ? 1 : 0
+  })
+}
+
+const opacityObs = new IntersectionObserver(handler)
+
 const RepoLink = {
   view: ({ attrs: { url } }) =>
     m(
@@ -55,6 +65,11 @@ const Repo = () => {
         state.status == "loaded" &&
           m(
             ".repo",
+            {
+              oncreate: ({ dom }) =>
+                state.status == "loaded" && opacityObs.observe(dom),
+              style: { opacity: 1 },
+            },
             m(
               ".col-md-3-3",
               {

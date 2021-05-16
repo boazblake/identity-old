@@ -27,19 +27,15 @@ self.addEventListener('message', (event) => {
 self.__precacheManifest = [
   {
     "url": "app.css",
-    "revision": "492807fd10dacec5ed439053e981e1d4"
+    "revision": "cbe191a96858a655f56271da139f8682"
   },
   {
     "url": "app.js",
-    "revision": "ea0448270b52a4ea2f3366975575aa06"
+    "revision": "2e232c6c449ee63dd4a9fc8373f40197"
   },
   {
     "url": "files/resume.pdf",
     "revision": "7686ea4415fbba24f414d245996e8789"
-  },
-  {
-    "url": "images/boazface.jpg",
-    "revision": "ac34d87e2757120960ab4f9a7acba2c6"
   },
   {
     "url": "images/github.svg",
@@ -48,6 +44,10 @@ self.__precacheManifest = [
   {
     "url": "images/linkedin.svg",
     "revision": "c1eb27404bbc0d6052620ac79194ae19"
+  },
+  {
+    "url": "images/me.jpg",
+    "revision": "ac34d87e2757120960ab4f9a7acba2c6"
   },
   {
     "url": "images/resume 2.jpeg",
