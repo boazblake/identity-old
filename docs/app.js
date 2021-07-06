@@ -1048,8 +1048,7 @@ var _styles = require("styles");
 
 var _utils = require("utils");
 
-var _components = require("components");
-
+// import { Walkabout } from "components"
 var Home = {
   view: function view() {
     return m(".home", {
@@ -1080,7 +1079,8 @@ var Home = {
         width: "100px"
       },
       src: "images/linkedin.svg"
-    })), m(_components.Walkabout)])), m("p", m("code", {
+    })) // m(Walkabout),
+    ])), m("p", m("code", {
       style: {
         color: "black",
         margin: "4px",
