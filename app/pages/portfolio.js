@@ -3,7 +3,7 @@ import { Animate, fadeIn } from "styles"
 
 const handler = (entry) => {
   entry.forEach((change) => {
-    console.log(change.isIntersecting, change.target.style.opacity)
+    // console.log(change.isIntersecting, change.target.style.opacity)
 
     change.target.style.opacity = change.isIntersecting ? 1 : 0
   })
