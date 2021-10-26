@@ -27,15 +27,23 @@ self.addEventListener('message', (event) => {
 self.__precacheManifest = [
   {
     "url": "app.css",
-    "revision": "ad2bb5826cec1204a91856f93ebabd70"
+    "revision": "7cb0246041d190a129504f54be9b0ec6"
   },
   {
     "url": "app.js",
-    "revision": "6f0c2af73aedae2cd8d847e640842545"
+    "revision": "b45d619f1dc97374acfe66a7769245c1"
   },
   {
     "url": "files/resume.pdf",
-    "revision": "7686ea4415fbba24f414d245996e8789"
+    "revision": "6fe1b5e14e85bb78f86e7f0a0dc2e4fd"
+  },
+  {
+    "url": "images/applications.svg",
+    "revision": "69384e27abedb1da7d7d79db212cc023"
+  },
+  {
+    "url": "images/cv.jpeg",
+    "revision": "67be94fa51a1550ce67eae4d2e1a6c71"
   },
   {
     "url": "images/github.svg",
@@ -50,12 +58,24 @@ self.__precacheManifest = [
     "revision": "ac34d87e2757120960ab4f9a7acba2c6"
   },
   {
-    "url": "images/resume 2.jpeg",
-    "revision": "9a7da7d5cff2b0574b4e1c92fb8215a7"
+    "url": "images/portfolio_files/app.css",
+    "revision": "9841627cba2d43458cfdf5a76c05920b"
   },
   {
-    "url": "images/resume.jpeg",
-    "revision": "370444fdc3240059cf93bf2cedbc45bb"
+    "url": "images/portfolio_files/app.js",
+    "revision": "b9c1e214795e96ba48e96d63712a46d5"
+  },
+  {
+    "url": "images/portfolio_files/flems.html",
+    "revision": "1785284c70a6ab9be1f5bd8e9655e92d"
+  },
+  {
+    "url": "images/portfolio_files/vendor.js",
+    "revision": "44a49e25c6d2568b8f943990d8483b82"
+  },
+  {
+    "url": "images/portfolio.html",
+    "revision": "0c0a10d3f00f91d3468a43eea8456348"
   },
   {
     "url": "images/walk-sequence.svg",
@@ -71,7 +91,7 @@ self.__precacheManifest = [
   },
   {
     "url": "vendor.js",
-    "revision": "c5d49bd923c99b5eb039666ef7a191fd"
+    "revision": "17986db4a3e86d782fdf67a148ac72ca"
   }
 ].concat(self.__precacheManifest || []);
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});

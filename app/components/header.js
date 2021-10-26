@@ -15,7 +15,10 @@ export const Header = {
       },
       [
         m(
-          "code",
+          m.route.Link,
+          {
+            href: "/home",
+          },
           m(
             "p.typewriter type-writer",
             {
@@ -24,7 +27,7 @@ export const Header = {
                 (dom.onanimationend = () =>
                   setTimeout(() => dom.classList.remove("type-writer"))),
             },
-            "{Boaz Blake}"
+            m("code", "{Boaz Blake}")
           )
         ),
         mdl.settings.profile === "desktop"

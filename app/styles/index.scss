@@ -42,6 +42,7 @@ body {
 
 a {
   text-decoration: none;
+  cursor: pointer;
 }
 
 .navbar {
@@ -78,21 +79,21 @@ a {
   }
 }
 
-.resume-img {
-  object-fit: contain;
-  max-width: 75vw;
-}
+// .resume-img {
+//   object-fit: contain;
+//   width: 100%;
+// }
 
-#about-me {
-  position: absolute;
-  top: 10%;
-  right: 0;
-  max-width: 80%;
-  max-height: 95%;
-  overflow: scroll;
-  background-color: var(--white);
-  border: dashed;
-}
+// #about-me {
+//   position: absolute;
+//   top: 10%;
+//   right: 0;
+//   max-width: 80%;
+//   max-height: 95%;
+//   overflow: scroll;
+//   background-color: var(--white);
+//   border: dashed;
+// }
 
 .app {
   height: 100vh;
@@ -199,87 +200,88 @@ a {
   transform: scale(0);
 }
 
-.snippet {
-  margin: 0 auto;
-  width: 90%;
+// .snippet {
+//   margin: 0 auto;
+//   width: 90%;
 
-  .snippet-title {
-    color: var(--blue);
-    // visibility: visible;
-    font-size: 20px;
-  }
-  // .snippet-code{
-  // width: 80%;
-  // }
-}
+//   .snippet-title {
+//     color: var(--blue);
+//     // visibility: visible;
+//     font-size: 20px;
+//   }
+//   // .snippet-code{
+//   // width: 80%;
+//   // }
+// }
 
 #me {
   object-fit: cover;
   width: 100%;
   max-width: 500px;
   height: 250px;
+  border-radius: 50%;
 }
 
-@keyframes walkanim {
-  to {
-    background-position: 100% 0;
-  }
-}
-@keyframes stroll {
-  from {
-    transform: translate(-100%);
-  }
-  to {
-    transform: translate(500%);
-  }
-}
+// @keyframes walkanim {
+//   to {
+//     background-position: 100% 0;
+//   }
+// }
+// @keyframes stroll {
+//   from {
+//     transform: translate(-100%);
+//   }
+//   to {
+//     transform: translate(500%);
+//   }
+// }
 
-#walk-container {
-  display: inline-block;
-  position: absolute;
-  width: 20%;
-  padding-bottom: 26%;
-  vertical-align: middle;
-  overflow: hidden;
-  animation: stroll 20s linear infinite;
-}
-#walk {
-  display: inline-block;
-  position: absolute;
-  // top: 0;
-  // left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: url(images/walk-sequence.svg);
-  background-repeat: no-repeat;
-  background-size: 800%;
-  animation: walkanim 1s infinite steps(7);
-}
+// #walk-container {
+//   display: inline-block;
+//   position: absolute;
+//   width: 20%;
+//   padding-bottom: 26%;
+//   vertical-align: middle;
+//   overflow: hidden;
+//   animation: stroll 20s linear infinite;
+// }
+// #walk {
+//   display: inline-block;
+//   position: absolute;
+//   // top: 0;
+//   // left: 0;
+//   width: 100%;
+//   height: 100%;
+//   background-image: url(images/walk-sequence.svg);
+//   background-repeat: no-repeat;
+//   background-size: 800%;
+//   animation: walkanim 1s infinite steps(7);
+// }
 
-#TheGameOfLife {
-  position: absolute;
-  opacity: 0.2;
-  top: -25%;
-  z-index: -1;
-  margin: 0 auto;
-  width: 100%;
-  .matrix {
-    width: 100%;
-    margin: 0 auto;
-    border: dashed 1px var(--indigo);
-  }
-  .cell {
-    cursor: pointer;
-  }
+// #TheGameOfLife {
+//   position: absolute;
+//   opacity: 0.2;
+//   top: -25%;
+//   z-index: -1;
+//   margin: 0 auto;
+//   width: 100%;
+//   .matrix {
+//     width: 100%;
+//     margin: 0 auto;
+//     border: dashed 1px var(--indigo);
+//   }
+//   .cell {
+//     cursor: pointer;
+//   }
 
-  .alive {
-    background: var(--indigo);
-  }
+//   .alive {
+//     background: var(--indigo);
+//   }
 
-  .dead {
-    background: #ecf0f1;
-  }
-}
+//   .dead {
+//     background: #ecf0f1;
+//   }
+// }
 
 @media screen and (min-width: 600px) and (max-width: 899px) {
 }

@@ -7,7 +7,7 @@ const model = {
   routes: [
     "/home",
     "/portfolio",
-    "/snippets",
+    // "/snippets",
     // "/about",
     "/resume",
   ],

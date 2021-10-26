@@ -1,4 +1,4 @@
-import { Pause, randomPause } from "utils"
+import { randomPause } from "utils"
 import { Animate, fadeIn } from "styles"
 
 const handler = (entry) => {
@@ -116,14 +116,11 @@ export const Portfolio = () => {
     ),
     view: ({ attrs: { mdl } }) =>
       m(
-        ".portfolio",
-        m(
-          ".frow-container.frow",
-          state.status == "failed" && "Error fetching Repos ...",
-          state.status == "loading" && "Loading Repos ...",
-          state.status == "loaded" &&
-            state.repos.map((url) => m(Repo, { url, mdl }))
-        )
+        ".frow",
+        state.status == "failed" && "Error fetching Repos ...",
+        state.status == "loading" && "Loading Repos ...",
+        state.status == "loaded" &&
+          state.repos.map((url) => m(Repo, { url, mdl }))
       ),
   }
 }
