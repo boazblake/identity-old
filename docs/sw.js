@@ -78,6 +78,10 @@ self.__precacheManifest = [
     "revision": "0c0a10d3f00f91d3468a43eea8456348"
   },
   {
+    "url": "images/resume.jpg",
+    "revision": "d68a9daae0bb66934b29dd7d7b88b30a"
+  },
+  {
     "url": "images/walk-sequence.svg",
     "revision": "9f5940a94fdfb3c29fa7c92e8a835882"
   },
