@@ -1,5 +1,9 @@
 import { AnimateChildren, fadeInUp } from "styles"
 import { Pause } from "utils"
+import * as pdfjsLib from "pdfjs-dist"
+import worker from "pdfjs-dist/build/pdf.worker.entry.js"
+
+const pdfTask = pdfjsLib.getDocument("files/resume.pdf")
 
 export const Resume = {
   view: () =>
@@ -23,17 +27,43 @@ export const Resume = {
         m(
           "a",
           {
-            href: "files/resume.docx",
+            href: "files/resume.pdf",
             title: "Boaz Blake Web Dev Resume",
-            download: "files/resume.docx",
+            download: "files/resume.pdf",
           },
           "Download PDF"
         )
       ),
-      m("img", {
-        id: "resume-1",
-        src: "images/resume.jpg",
-        style: { objectFit: "contain", width: "100%" },
+      m("canvas", {
+        oncreate: ({ dom }) => {
+          pdfjsLib.GlobalWorkerOptions.workerSrc = worker
+          pdfTask.promise.then((pdfDocument) => {
+            pdfDocument.getPage(1).then((page) => {
+              const scale = 1.5
+              const viewport = page.getViewport({ scale })
+              const outputScale = window.devicePixelRatio || 1
+              const ctx = dom.getContext("2d")
+
+              dom.width = Math.floor(viewport.width * outputScale)
+              dom.height = Math.floor(viewport.height * outputScale)
+              dom.style.width = 0.8 * Math.floor(viewport.width) + "px"
+              dom.style.height = 0.8 * Math.floor(viewport.height) + "px"
+
+              const transform =
+                outputScale !== 1
+                  ? [outputScale, 0, 0, outputScale, 0, 0]
+                  : null
+
+              // const renderTask =
+              page.render({
+                canvasContext: ctx,
+                transform,
+                viewport,
+              })
+              // return renderTask.promise
+            })
+          })
+        },
       })
     ),
 }

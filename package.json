@@ -16,6 +16,7 @@
     "mithril": "^2.0.4",
     "mithril-stream": "^2.0.0",
     "normalize.css": "^8.0.1",
+    "pdfjs-dist": "^2.10.377",
     "ramda": "^0.27.0",
     "sharp-brunch": "^1.0.6",
     "workbox-brunch": "^1.0.2"

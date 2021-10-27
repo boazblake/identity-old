@@ -117,6 +117,7 @@
 
 (function() {
 var global = typeof window === 'undefined' ? this : window;
+var process;
 var __makeRelativeRequire = function(require, mappings, pref) {
   var none = {};
   var tryReq = function(name, pref) {
@@ -1560,6 +1561,8 @@ exports.Portfolio = Portfolio;
 require.register("pages/resume.js", function(exports, require, module) {
 "use strict";
 
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -1569,6 +1572,17 @@ var _styles = require("styles");
 
 var _utils = require("utils");
 
+var pdfjsLib = _interopRequireWildcard(require("pdfjs-dist"));
+
+var _pdfWorkerEntry = _interopRequireDefault(require("pdfjs-dist/build/pdf.worker.entry.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
+
+function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+var pdfTask = pdfjsLib.getDocument("files/resume.pdf");
 var Resume = {
   view: function view() {
     return m(".frow-container", {
@@ -1583,15 +1597,34 @@ var Resume = {
         boxShadow: "0 0 6px rgb(0 0 0 / 20%)"
       }
     }, m("a", {
-      href: "files/resume.docx",
+      href: "files/resume.pdf",
       title: "Boaz Blake Web Dev Resume",
-      download: "files/resume.docx"
-    }, "Download PDF")), m("img", {
-      id: "resume-1",
-      src: "images/resume.jpg",
-      style: {
-        objectFit: "contain",
-        width: "100%"
+      download: "files/resume.pdf"
+    }, "Download PDF")), m("canvas", {
+      oncreate: function oncreate(_ref) {
+        var dom = _ref.dom;
+        pdfjsLib.GlobalWorkerOptions.workerSrc = _pdfWorkerEntry.default;
+        pdfTask.promise.then(function (pdfDocument) {
+          pdfDocument.getPage(1).then(function (page) {
+            var scale = 1.5;
+            var viewport = page.getViewport({
+              scale: scale
+            });
+            var outputScale = window.devicePixelRatio || 1;
+            var ctx = dom.getContext("2d");
+            dom.width = Math.floor(viewport.width * outputScale);
+            dom.height = Math.floor(viewport.height * outputScale);
+            dom.style.width = 0.8 * Math.floor(viewport.width) + "px";
+            dom.style.height = 0.8 * Math.floor(viewport.height) + "px";
+            var transform = outputScale !== 1 ? [outputScale, 0, 0, outputScale, 0, 0] : null; // const renderTask =
+
+            page.render({
+              canvasContext: ctx,
+              transform: transform,
+              viewport: viewport
+            }); // return renderTask.promise
+          });
+        });
       }
     }));
   }
@@ -2038,7 +2071,8 @@ exports.range = range;
 
 });
 
-require.register("___globals___", function(exports, require, module) {
+require.alias("buffer/index.js", "buffer");
+require.alias("process/browser.js", "process");process = require('process');require.register("___globals___", function(exports, require, module) {
   
 
 // Auto-loaded modules from config.npm.globals.
