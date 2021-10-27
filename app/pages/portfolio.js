@@ -73,7 +73,7 @@ const Repo = () => {
             m(
               ".col-md-3-3",
               {
-                oncreate: Animate(fadeIn, randomPause),
+                // oncreate: Animate(fadeIn, randomPause),
               },
               [
                 m(".repo-title", [m(RepoLink, { url: state.name })]),

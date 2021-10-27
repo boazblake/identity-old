@@ -62,7 +62,7 @@ export const Home = {
     m(
       ".page.frow.row-around",
       {
-        style: { height: "100%" },
+        style: { height: "100vh" },
         oncreate: AnimateChildren(fadeInUp, Pause(0.05)),
       },
       [

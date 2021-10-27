@@ -1321,7 +1321,7 @@ var Home = {
     var mdl = _ref3.attrs.mdl;
     return m(".page.frow.row-around", {
       style: {
-        height: "100%"
+        height: "100vh"
       },
       oncreate: (0, _styles.AnimateChildren)(_styles.fadeInUp, (0, _utils.Pause)(0.05))
     }, [m(".frow.row-around", {
@@ -1512,8 +1512,7 @@ var Repo = function Repo() {
         style: {
           opacity: 1
         }
-      }, m(".col-md-3-3", {
-        oncreate: (0, _styles.Animate)(_styles.fadeIn, _utils.randomPause)
+      }, m(".col-md-3-3", {// oncreate: Animate(fadeIn, randomPause),
       }, [m(".repo-title", [m(RepoLink, {
         url: state.name
       })]), m("img", {
