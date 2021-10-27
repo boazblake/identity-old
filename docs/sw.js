@@ -31,11 +31,11 @@ self.__precacheManifest = [
   },
   {
     "url": "app.js",
-    "revision": "e20e11aa6d9a87885307128d90401421"
+    "revision": "efc9aaf112d86a4aae8f8e781503c933"
   },
   {
     "url": "files/resume.pdf",
-    "revision": "6fe1b5e14e85bb78f86e7f0a0dc2e4fd"
+    "revision": "a969ef5c8187fa97e63aebc4305d0866"
   },
   {
     "url": "images/applications.svg",
@@ -76,10 +76,6 @@ self.__precacheManifest = [
   {
     "url": "images/portfolio.html",
     "revision": "0c0a10d3f00f91d3468a43eea8456348"
-  },
-  {
-    "url": "images/resume.jpg",
-    "revision": "d68a9daae0bb66934b29dd7d7b88b30a"
   },
   {
     "url": "images/walk-sequence.svg",

@@ -62,7 +62,7 @@ export const Home = {
     m(
       ".page.frow.row-around",
       {
-        style: { height: "100vh" },
+        style: { maxHeight: "80vh" },
         oncreate: AnimateChildren(fadeInUp, Pause(0.05)),
       },
       [
@@ -85,7 +85,7 @@ export const Home = {
           )
         ),
         m(
-          "p.frow",
+          "p.frow-container",
           {
             style: {
               color: "black",
@@ -97,9 +97,9 @@ export const Home = {
           "Front-End developer with half a decade of industry experience building a variety of different applications using a multitude of different frameworks and languages."
         ),
         m(
-          "p",
-
+          "a",
           {
+            href: "mailto:boazblake@protonMail.com",
             style: {
               color: "black",
               padding: "4px",
@@ -107,8 +107,7 @@ export const Home = {
               fontSize: "1rem",
             },
           },
-          "Contact:",
-          "boazBlake at protonMail dot com"
+          "BoazBlake @ protonMail dot com"
         ),
       ]
     ),

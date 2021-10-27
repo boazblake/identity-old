@@ -1321,7 +1321,7 @@ var Home = {
     var mdl = _ref3.attrs.mdl;
     return m(".page.frow.row-around", {
       style: {
-        height: "100vh"
+        maxHeight: "80vh"
       },
       oncreate: (0, _styles.AnimateChildren)(_styles.fadeInUp, (0, _utils.Pause)(0.05))
     }, [m(".frow.row-around", {
@@ -1342,21 +1342,22 @@ var Home = {
         src: src,
         target: target
       });
-    }))), m("p.frow", {
+    }))), m("p.frow-container", {
       style: {
         color: "black",
         padding: "4px",
         margin: "4px",
         fontSize: "1.4rem"
       }
-    }, "Front-End developer with half a decade of industry experience building a variety of different applications using a multitude of different frameworks and languages."), m("p", {
+    }, "Front-End developer with half a decade of industry experience building a variety of different applications using a multitude of different frameworks and languages."), m("a", {
+      href: "mailto:boazblake@protonMail.com",
       style: {
         color: "black",
         padding: "4px",
         margin: "4px",
         fontSize: "1rem"
       }
-    }, "Contact:", "boazBlake at protonMail dot com")]);
+    }, "BoazBlake @ protonMail dot com")]);
   }
 };
 exports.Home = Home;
@@ -1445,14 +1446,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Portfolio = void 0;
 
-var _utils = require("utils");
-
-var _styles = require("styles");
-
 var handler = function handler(entry) {
-  entry.forEach(function (change) {
-    // console.log(change.isIntersecting, change.target.style.opacity)
-    change.target.style.opacity = change.isIntersecting ? 1 : 0;
+  return entry.forEach(function (change) {
+    return change.target.style.opacity = change.isIntersecting ? 1 : 0;
   });
 };
 
@@ -1512,8 +1508,7 @@ var Repo = function Repo() {
         style: {
           opacity: 1
         }
-      }, m(".col-md-3-3", {// oncreate: Animate(fadeIn, randomPause),
-      }, [m(".repo-title", [m(RepoLink, {
+      }, m(".col-md-3-3", [m(".repo-title", [m(RepoLink, {
         url: state.name
       })]), m("img", {
         width: "200px",

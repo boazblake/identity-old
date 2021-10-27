@@ -1,13 +1,7 @@
-import { randomPause } from "utils"
-import { Animate, fadeIn } from "styles"
-
-const handler = (entry) => {
-  entry.forEach((change) => {
-    // console.log(change.isIntersecting, change.target.style.opacity)
-
-    change.target.style.opacity = change.isIntersecting ? 1 : 0
-  })
-}
+const handler = (entry) =>
+  entry.forEach(
+    (change) => (change.target.style.opacity = change.isIntersecting ? 1 : 0)
+  )
 
 const opacityObs = new IntersectionObserver(handler)
 
@@ -72,9 +66,7 @@ const Repo = () => {
             },
             m(
               ".col-md-3-3",
-              {
-                // oncreate: Animate(fadeIn, randomPause),
-              },
+
               [
                 m(".repo-title", [m(RepoLink, { url: state.name })]),
                 m("img", { width: "200px", src: state.src }),
