@@ -12,7 +12,7 @@ const model = {
     "/resume",
   ],
   status: { sidebar: false },
-  settings: { profile: "", inspector: "" },
+  settings: { width: "", profile: "", inspector: "" },
   snippets: [],
   slug: "",
 }

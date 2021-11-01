@@ -39,19 +39,20 @@ export const Resume = {
           pdfjsLib.GlobalWorkerOptions.workerSrc = worker
           pdfTask.promise.then((pdfDocument) => {
             pdfDocument.getPage(1).then((page) => {
-              const scale = 1.5
+              const scale = 1.1
               const viewport = page.getViewport({ scale })
               const outputScale = window.devicePixelRatio || 1
               const ctx = dom.getContext("2d")
-
+              console.log(viewport)
               dom.width = Math.floor(viewport.width * outputScale)
               dom.height = Math.floor(viewport.height * outputScale)
-              dom.style.width = 0.8 * Math.floor(viewport.width) + "px"
-              dom.style.height = 0.8 * Math.floor(viewport.height) + "px"
-
+              dom.style.width = "100%"
+              dom.style.height = "100%"
+              dom.style.overflow = "auto"
+              console.log(dom.width)
               const transform =
                 outputScale !== 1
-                  ? [outputScale, 0, 0, outputScale, 0, 0]
+                  ? [outputScale, 0, 0, outputScale, 0, 1]
                   : null
 
               // const renderTask =

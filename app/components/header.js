@@ -10,7 +10,6 @@ export const Header = {
         style: {
           transitionDuration: 2000,
           backgroundColor: isSideBarActive(mdl) ? "black" : "white",
-          color: isSideBarActive(mdl) ? "white" : "black",
         },
       },
       [
@@ -23,6 +22,9 @@ export const Header = {
             "p.typewriter type-writer",
             {
               id: "logo-header",
+              style: {
+                color: isSideBarActive(mdl) ? "white" : "black",
+              },
               oncreate: ({ dom }) =>
                 (dom.onanimationend = () =>
                   setTimeout(() => dom.classList.remove("type-writer"))),

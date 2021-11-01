@@ -363,13 +363,15 @@ var Header = {
     return m("#header.frow.row-center.justify-between", {
       style: {
         transitionDuration: 2000,
-        backgroundColor: (0, _utils.isSideBarActive)(mdl) ? "black" : "white",
-        color: (0, _utils.isSideBarActive)(mdl) ? "white" : "black"
+        backgroundColor: (0, _utils.isSideBarActive)(mdl) ? "black" : "white"
       }
     }, [m(m.route.Link, {
       href: "/home"
     }, m("p.typewriter type-writer", {
       id: "logo-header",
+      style: {
+        color: (0, _utils.isSideBarActive)(mdl) ? "white" : "black"
+      },
       oncreate: function oncreate(_ref2) {
         var dom = _ref2.dom;
         return dom.onanimationend = function () {
@@ -1015,8 +1017,6 @@ var _routes = _interopRequireDefault(require("./routes.js"));
 
 var _model = _interopRequireDefault(require("./model.js"));
 
-var _initMithrilInspector = require("./init-mithril-inspector");
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var root = document.body;
@@ -1027,18 +1027,7 @@ if (module.hot) {
 }
 
 if ('production' == "development") {
-  console.log("Looks like we are in development mode!"); //mithril - inspector
-  // initMithrilInspector(model)
-  // const updateMithrilInspector = () => {
-  //   const mdl = getLocalMdl()
-  //   if (mdl !== JSON.stringify(model)) {
-  //     let dto = JSON.stringify(model)
-  //     saveJsonMdl(dto)
-  //     sendMessage("mithril-inspector", JSON.parse(dto))
-  //   }
-  //   return requestAnimationFrame(updateMithrilInspector)
-  // }
-  // updateMithrilInspector(model)
+  console.log("Looks like we are in development mode!");
 } else {
   if ("serviceWorker" in navigator) {
     window.addEventListener("load", function () {
@@ -1064,6 +1053,7 @@ var checkWidth = function checkWidth(winW) {
   if (winW !== w) {
     winW = w;
     var lastProfile = _model.default.settings.profile;
+    _model.default.settings.width = w;
     _model.default.settings.profile = getProfile(w);
     if (lastProfile != _model.default.settings.profile) m.redraw();
   }
@@ -1073,11 +1063,6 @@ var checkWidth = function checkWidth(winW) {
 
 _model.default.settings.profile = getProfile(winW);
 checkWidth(winW);
-
-if (sessionStorage.getItem("user")) {
-  _model.default.user = JSON.parse(sessionStorage.getItem("user"));
-}
-
 m.route(root, "/home", (0, _routes.default)(_model.default));
 
 });
@@ -1183,6 +1168,7 @@ var model = {
     sidebar: false
   },
   settings: {
+    width: "",
     profile: "",
     inspector: ""
   },
@@ -1600,17 +1586,20 @@ var Resume = {
         pdfjsLib.GlobalWorkerOptions.workerSrc = _pdfWorkerEntry.default;
         pdfTask.promise.then(function (pdfDocument) {
           pdfDocument.getPage(1).then(function (page) {
-            var scale = 1.5;
+            var scale = 1.1;
             var viewport = page.getViewport({
               scale: scale
             });
             var outputScale = window.devicePixelRatio || 1;
             var ctx = dom.getContext("2d");
+            console.log(viewport);
             dom.width = Math.floor(viewport.width * outputScale);
             dom.height = Math.floor(viewport.height * outputScale);
-            dom.style.width = 0.8 * Math.floor(viewport.width) + "px";
-            dom.style.height = 0.8 * Math.floor(viewport.height) + "px";
-            var transform = outputScale !== 1 ? [outputScale, 0, 0, outputScale, 0, 0] : null; // const renderTask =
+            dom.style.width = "100%";
+            dom.style.height = "100%";
+            dom.style.overflow = "auto";
+            console.log(dom.width);
+            var transform = outputScale !== 1 ? [outputScale, 0, 0, outputScale, 0, 1] : null; // const renderTask =
 
             page.render({
               canvasContext: ctx,
