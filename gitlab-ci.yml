@@ -8,7 +8,7 @@ pages:
   script:
   - npm update
   - npm install -g brunch
-  - brunch build --production
+  - yarn run build:pre && brunch build --production
   artifacts:
     paths:
     - docs
