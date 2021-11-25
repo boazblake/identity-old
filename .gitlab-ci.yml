@@ -1,4 +1,4 @@
-image: node:12
+image: node:16
 
 pages:
   cache:
@@ -6,12 +6,9 @@ pages:
     - node_modules/
 
   script:
-  - npm update
-  - npm install -g brunch
-  - yarn run build:pre && brunch build --production
+  - cp -r ./docs ./public
   artifacts:
     paths:
-    - docs
+    - public
   rules:
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
-    stage: deploy

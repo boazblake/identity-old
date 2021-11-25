@@ -1,5 +1,5 @@
-import { AnimateChildren, fadeInUp } from "styles"
-import { Pause } from "utils"
+import { AnimateChildren, fadeInUp } from "../styles"
+import { Pause } from "../utils"
 import * as pdfjsLib from "pdfjs-dist"
 import worker from "pdfjs-dist/build/pdf.worker.entry.js"
 

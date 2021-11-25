@@ -1,5 +1,5 @@
-import { AnimateChildren, fadeInUp, Animate, popIn } from "styles"
-import { log, randomPause, Pause } from "utils"
+import { AnimateChildren, fadeInUp, Animate, popIn } from "../styles"
+import { log, randomPause, Pause } from "../utils"
 // import { Walkabout } from "components"
 
 const links = [
