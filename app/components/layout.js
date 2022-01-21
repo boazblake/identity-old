@@ -4,7 +4,8 @@ import { Header, SideBar } from "components"
 export const Layout = () => {
   return {
     view: ({ attrs: { mdl }, children }) =>
-      m(".app", [
+      m(
+        ".app",
         m(Header, { mdl }),
         m(".page", children),
         mdl.status.sidebar &&
@@ -13,7 +14,7 @@ export const Layout = () => {
             oncreate: Animate(sideBarIn()),
             onbeforeremove: Animate(slideOutRight),
             mdl,
-          }),
-      ]),
+          })
+      ),
   }
 }

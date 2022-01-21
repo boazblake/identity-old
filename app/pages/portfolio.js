@@ -1,3 +1,29 @@
+const hasRepos = () => {
+  let age = parseInt(localStorage.getItem("repos-date"))
+  let now = Date.now()
+
+  return (now - age) / 1000 >= 3600
+    ? (localStorage.clear("repos"), null)
+    : localStorage.getItem("repos")
+}
+
+const fetchRepos = (mdl) => {
+  mdl.portfolio.reposList = JSON.parse(hasRepos())
+  return mdl.portfolio.reposList
+}
+const saveRepos = (repos) => {
+  localStorage.setItem("repos-date", JSON.stringify(Date.now()))
+  localStorage.setItem("repos", JSON.stringify(repos))
+  return repos
+}
+
+const hasRepo = (name) => localStorage.getItem(name)
+const fetchRepo = (name) => JSON.parse(hasRepo(name))
+const saveRepo = (name) => (repo) => {
+  localStorage.setItem(name, JSON.stringify(repo))
+  return repo
+}
+
 const handler = (entry) =>
   entry.forEach(
     (change) => (change.target.style.opacity = change.isIntersecting ? 1 : 0)
@@ -18,18 +44,28 @@ const RepoLink = {
     ),
 }
 
-const getRepos = () =>
-  m.request({
-    url: "https://api.github.com/users/boazblake/repos?sort=asc&per_page=100",
-    headers: {
-      Accept: "application/vnd.github.v3+json",
-    },
-  })
+const getRepos = (mdl) => {
+  return hasRepos()
+    ? Promise.resolve(fetchRepos(mdl))
+    : m
+        .request({
+          url: "https://api.github.com/users/boazblake/repos?sort=asc&per_page=100",
+          headers: {
+            Accept: "application/vnd.github.v3+json",
+          },
+        })
+        .then(saveRepos)
+}
 
-const getRepo = (state) =>
-  m.request({
-    url: `https://api.github.com/repos/boazblake/${state.name}`,
-  })
+const getRepo = (state) => {
+  return hasRepo(state.name)
+    ? Promise.resolve(fetchRepo(state.name))
+    : m
+        .request({
+          url: `https://api.github.com/repos/boazblake/${state.name}`,
+        })
+        .then(saveRepo(state.name))
+}
 
 const Repo = () => {
   const state = {
@@ -37,7 +73,7 @@ const Repo = () => {
     status: "loading",
   }
   return {
-    oninit: ({ attrs: { url } }) => {
+    oninit: ({ attrs: { mdl, url } }) => {
       state.name = url.split("/")[3]
       getRepo(state).then(
         ({ description }) => {
@@ -45,6 +81,8 @@ const Repo = () => {
           state.info = description && description.split("~")[0]
           state.src = description && description.split("~")[1]
           state.status = "loaded"
+          mdl.portfolio.repos[state.name] = { description }
+          hasRepo(state.name) && m.redraw()
         },
         (errors) => {
           state.status = "failed"
@@ -82,37 +120,42 @@ const Repo = () => {
 export const Portfolio = () => {
   const state = {
     status: "loading",
-    repos: [],
     errors: {},
   }
 
   return {
-    oninit: getRepos().then(
-      (repos) => {
-        state.status = "loaded"
-        state.repos = repos
-          .filter((repo) => {
-            return (
-              repo.homepage &&
-              repo.homepage.includes("boazblake") &&
-              repo.description &&
-              repo.description.split("~")[1]
-            )
-          })
-          .map((repo) => repo.homepage)
-      },
-      (errors) => {
-        state.status = "failed"
-        state.errors = errors
-      }
-    ),
+    oninit: ({ attrs: { mdl } }) =>
+      getRepos(mdl)
+        .then((repos) =>
+          repos
+            .filter((repo) => {
+              return (
+                repo.homepage &&
+                repo.homepage.includes("boazblake") &&
+                repo.description &&
+                repo.description.split("~")[1]
+              )
+            })
+            .map((repo) => repo.homepage)
+        )
+        .then(
+          (repos) => {
+            mdl.portfolio.reposList = repos
+            state.status = "loaded"
+            hasRepos() && m.redraw()
+          },
+          (errors) => {
+            state.status = "failed"
+            state.errors = errors
+          }
+        ),
     view: ({ attrs: { mdl } }) =>
       m(
         ".frow",
         state.status == "failed" && "Error fetching Repos ...",
         state.status == "loading" && "Loading Repos ...",
         state.status == "loaded" &&
-          state.repos.map((url) => m(Repo, { url, mdl }))
+          mdl.portfolio.reposList.map((url) => m(Repo, { url, mdl }))
       ),
   }
 }

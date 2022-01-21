@@ -11,6 +11,7 @@ const model = {
     // "/about",
     "/resume",
   ],
+  portfolio: { reposList: [], repos: {} },
   status: { sidebar: false },
   settings: { width: "", profile: "", inspector: "" },
   snippets: [],
