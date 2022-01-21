@@ -1,3 +1,4 @@
+@use 'sass:math'
 //
 // Responsive: Utility classes
 // --------------------------------------------------
@@ -34,8 +35,8 @@
     width: 100%
     margin-right: auto
     margin-left: auto
-    padding-left: $grid-gutter-width / 2
-    padding-right: $grid-gutter-width / 2
+    padding-left:  math.div($grid-gutter-width, 2)
+    padding-right:  math.div($grid-gutter-width, 2)
 
   @each $size in $sizes-names
     @if map-get($sizes, $size) >= 310
